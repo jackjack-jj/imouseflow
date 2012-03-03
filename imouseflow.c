@@ -13,6 +13,8 @@ static BTN_TOUCH = 1;
 static BTN_LOCK = 2;
 static BTN_HOME = 4;
 
+static Version = "0.0.1";
+
 typedef struct {
     float x, y;
     int buttons;
@@ -57,8 +59,8 @@ static void AshikaseSendEvent(float x, float y, int buttons, bool abs) {
     event_.y = y;
     event_.buttons = buttons;
     event_.absolute = abs?YES:NO;
-	 printf("\ne_  = %f, %f, %s\n", x, y, event_.absolute?"true":"false");
-	 printf("arg = %f, %f, %s\n", x, y, abs?"true":"false");
+//	 printf("\ne_  = %f, %f, %s\n", x, y, event_.absolute?"true":"false");
+//	 printf("arg = %f, %f, %s\n", x, y, abs?"true":"false");
 
     CFMessagePortSendRequest(ashikase_, MouseMessageTypeEvent, cfEvent_, 0, 0, NULL, NULL);
 }
@@ -89,7 +91,7 @@ void MouseSlide(float x1, float y1, float x2, float y2){
 int main(int argc, char ** argv)
 {
 	if(argc<4){
-		printf("Usage : %s cursor[0,1] command\nCommands :\n   move x y\n   click button[nothing, touch, lock, home = 0, 1, 2, 4]\n", argv[0]);
+		printf("Version: %s\nUsage: %s cursor[0,1] command\nCommands:\n   move x y\n   click button[nothing, touch, lock, home = 0, 1, 2, 4]\n", Version, argv[0]);
 		return 0;
 	}
 
