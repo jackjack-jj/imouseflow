@@ -75,9 +75,15 @@ void MouseGoto(float x, float y){
 	AshikaseSendEvent(x, y, 0, true);
 }
 
-void MouseClick(int btn){
-	AshikaseSendEvent(0, 0, btn, false);
-	AshikaseSendEvent(0, 0, 0, false);
+void MouseClick(int btn, float x, float y){
+	AshikaseSendEvent(x, y, btn, true);
+	AshikaseSendEvent(x, y, 0, true);
+}
+
+void MouseSlide(float x1, float y1, float x2, float y2){
+	AshikaseSendEvent(x1, y1, BTN_TOUCH, true);
+	AshikaseSendEvent(x2, y2, BTN_TOUCH, true);
+	AshikaseSendEvent(x2, y2, 0, true);
 }
 
 int main(int argc, char ** argv)
@@ -105,9 +111,22 @@ int main(int argc, char ** argv)
 		sscanf(argv[4],"%f",&y);
 		MouseGoto(x, y);
 	}else if(strcmp(argv[2], "click") == 0){
+		if(argc<6){printf("Not enough arguments for command 'click'.\nExiting.");}
 		int btn;
+		float x, y;
 		sscanf(argv[3],"%i",&btn);
-		MouseClick(btn);
+		sscanf(argv[4],"%f",&x);
+		sscanf(argv[5],"%f",&y);
+		MouseClick(btn, x, y);
+	}else if(strcmp(argv[2], "slide") == 0){
+		if(argc<7){printf("Not enough arguments for command 'slide'.\nExiting.");}
+		float x1, y1;
+		float x2, y2;
+		sscanf(argv[3],"%f",&x1);
+		sscanf(argv[4],"%f",&y1);
+		sscanf(argv[5],"%f",&x2);
+		sscanf(argv[6],"%f",&y2);
+		MouseSlide(x1, y1, x2, y2);
 	}
 
 	CFMessagePortInvalidate(ashikase_);
